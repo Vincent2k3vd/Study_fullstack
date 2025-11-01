@@ -1,0 +1,24 @@
+{
+  "name": "study_fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Vincent2k3vd/Study_fullstack#readme",
+  "bugs": {
+    "url": "https://github.com/Vincent2k3vd/Study_fullstack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vincent2k3vd/Study_fullstack.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix clients\" \"npm run dev --prefix servers\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
+

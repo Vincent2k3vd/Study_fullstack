@@ -12,27 +12,36 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true,
+            },
         },
         password: {
             type: DataTypes.STRING,
             allowNull: true,
         },
         phone: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: true,
         },
-        isverify: {
-            type: DataTypes.TINYINT(1),
-            defaultValue: 0
+        isVerified: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
         role: {
-            type: DataTypes.INTEGER,
-            nums: [1, 2, 3],
-            defaultValue: 1
-        }
-    }, {
-        tamplate: true,
+            type: DataTypes.ENUM("user", "admin", "superadmin"),
+            defaultValue: "user",
+        },
     });
 
-    return Users
-}
+    Users.associate = (models) => {
+        Users.hasMany(models.RefreshTokens, {
+            foreignKey: "userId",
+            as: "refreshTokens",
+            onDelete: "CASCADE",
+        });
+    };
+
+    return Users;
+};
