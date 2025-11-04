@@ -5,9 +5,10 @@ const errorResponse = (res, status, message = "") => {
     })
 };
 
-const successResponse = (res, status, data = [], meta = {}) => {
+const successResponse = (res, status, message, data = [], meta = {}) => {
     return res.status(status).json({
         success: true,
+        message: message,
         data: data,
         meta: meta
     })

@@ -1,7 +1,10 @@
+import AppRouter from "./router/AppRouter";
+
+
 function App() {
   return (
     <>
-      <div className="text-2xl text-red-500">Hello word</div>
+      <AppRouter />
     </>
   );
 }
