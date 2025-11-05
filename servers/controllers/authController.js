@@ -1,6 +1,6 @@
 const { Users } = require('../models');
 const logger = require('../utils/logger');
-const { createUser, getUserByEmail } = require('../services/userService');
+const { createUser, getUserByEmail, getUserById } = require('../services/userService');
 const { errorResponse, successResponse } = require('../utils/response');
 const { hashPass, comparePass, accessTokenJWT, refreshTokenJWT } = require('../utils/hashing/hashingPassword');
 const createRefreshToken = require('../services/refreshTokenService');
@@ -68,6 +68,19 @@ const login = async (req, res) => {
     }
 
 };
+
+
+const logout = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const user = getUserById(userId);
+        
+    } catch (error) {
+        logger.error("Auth/logout: Server error :", { ip: req.ip, error: error.message, stack: error.stack });
+        return errorResponse(res, 500, "Server error! Please try again later.");
+    }
+}
 
 module.exports = {
     register,

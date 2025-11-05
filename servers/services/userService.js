@@ -19,22 +19,9 @@ const getProfile = async (userId) => {
     return await Users.findByPk(userId, { attributes: { exclude: ['password'] } });
 };
 
-const getAllUser = async (search = '', limit = 10, offset = 0) => {
-    const whereCondition = search
-        ? {
-            [Op.or]: [
-                { username: { [Op.like]: `%${search}%` } },
-                { email: { [Op.like]: `%${search}%` } },
-            ],
-        }
-        : {};
-    return await Users.findAndCountAll({
-        where: whereCondition,
-        limit,
-        offset,
-        attributes: { exclude: ['password'] },
-        order: [['createdAt', 'DESC']],
-    });
+const getAllUser = async (queryOptions) => {
+
+    return await Users.findAndCountAll(queryOptions);
 };
 
 const updateUser = async (user, { username, email, phone, dob }) => {

@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: "user",
         },
     });
-
+        
     Users.associate = (models) => {
         Users.hasMany(models.RefreshTokens, {
             foreignKey: "userId",
