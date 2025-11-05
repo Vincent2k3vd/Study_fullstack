@@ -9,6 +9,7 @@ const {
     createUser,
     getUserById,
     updateRole,
+    deleteUser,
 } = require('../services/userService');
 
 
@@ -26,7 +27,7 @@ const getUsers = async (req, res) => {
         logger.info("Users/getUsers: Get user successfully!", { ip: req.ip, email: user.email });
         return successResponse(res, 200, "Lấy thông tin người dùng thành công!", user);
     } catch (error) {
-        logger.error("Users/getUsers: Server error", { ip: req.ip, error: error, stack: error.stack });
+        logger.error("Users/getUsers: Server error", { ip: req.ip, error: error.message, stack: error.stack });
         return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
     }
 };
@@ -43,7 +44,7 @@ const getProfiles = async (req, res) => {
         logger.info("Users/getProfiles: Get profile successfully!", { ip: req.ip, email: user.email });
         return successResponse(res, 200, "Lấy thông tin thành công!", user);
     } catch (error) {
-        logger.error("Users/getProfiles: Server error", { ip: req.ip, error: error, stack: error.stack });
+        logger.error("Users/getProfiles: Server error", { ip: req.ip, error: error.message, stack: error.stack });
         return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
     }
 };
@@ -63,7 +64,7 @@ const getAllUsers = async (req, res) => {
             totalPages: Math.ceil(count / limit),
         });
     } catch (error) {
-        logger.error("Users/getAllUsers: Server error", { ip: req.ip, error: error, stack: error.stack });
+        logger.error("Users/getAllUsers: Server error", { ip: req.ip, error: error.message, stack: error.stack });
         return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
     }
 };
@@ -84,16 +85,16 @@ const createUsers = async (req, res) => {
         logger.info("Users/createUsers: Created user successfully!", { ip: req.ip, email });
         return successResponse(res, 201, "Tạo người dùng thành công!", newUser);
     } catch (error) {
-        logger.error("Users/createUsers: Server error", { ip: req.ip, error: error, stack: error.stack });
+        logger.error("Users/createUsers: Server error", { ip: req.ip, error: error.message, stack: error.stack });
         return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
     }
 };
 
 const updateUsers = async (req, res) => {
     try {
-        const { userId } = req.params.id;
+        const userId = req.params.id;
         const { username, phone, dob } = req.body;
-
+        console.log(Date(dob));
         const user = await getUserById(userId);
         if (!user) return errorResponse(res, 404, "Not found user!");
 
@@ -102,7 +103,7 @@ const updateUsers = async (req, res) => {
 
         return successResponse(res, 200, "Cập nhật thành công!", updatedUser);
     } catch (error) {
-        logger.error("User/updateUser: Server error!", { ip: req.ip, error: error, stack: error.stack });
+        logger.error("User/updateUser: Server error!", { ip: req.ip, error: error.message, stack: error.stack });
         return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
     }
 };
@@ -110,7 +111,7 @@ const updateUsers = async (req, res) => {
 const updateRoles = async (req, res) => {
     try {
 
-        const { userId } = req.params.id;
+        const userId = req.params.id;
 
         const { role } = req.body;
 
@@ -119,15 +120,31 @@ const updateRoles = async (req, res) => {
         if (!user) return errorResponse(res, 404, "Not found user!");
 
         await updateRole(user, role);
-        logger.info("User/updateRole: Updated successfully!", { ip: req.ip, email: user.email });
 
+        logger.info("User/updateRole: Updated successfully!", { ip: req.ip, email: user.email });
         return successResponse(res, 200, "Cập nhật vai trò thành công!");
     } catch (error) {
-        logger.error("User/updateRole: Server error!", { ip: req.ip, error: error, stack: error.stack });
+        logger.error("User/updateRole: Server error!", { ip: req.ip, error: error.message, stack: error.stack });
         return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
     }
 };
 
+
+const deleteUsers = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const user = await getUserById(userId);
+
+        await deleteUser(user);
+
+        logger.info("User/deleteUsers: Delete user successfully!", { ip: req.ip, email: user.email });
+        return successResponse(res, 200, "Xóa người dùng thành công!");
+    } catch (error) {
+        logger.error("Users/deleteUsers: Server error", { ip: req.ip, error: error.message, stack: error.stack });
+        return errorResponse(res, 500, "Lỗi máy chủ! Vui lòng thử lại sau.");
+    }
+}
 
 module.exports = {
     getUsers,
@@ -135,5 +152,6 @@ module.exports = {
     getAllUsers,
     createUsers,
     updateUsers,
-    updateRoles
+    updateRoles,
+    deleteUsers
 };

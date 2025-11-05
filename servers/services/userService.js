@@ -45,6 +45,14 @@ const updateRole = async (user, role) => {
     return await user.update({ role });
 };
 
+const deleteUser = async (user) => {
+    return await Users.destroy({
+        where: {
+            id: user.id,
+        },
+    });
+};
+
 module.exports = {
     createUser,
     getUserByEmail,
@@ -53,4 +61,5 @@ module.exports = {
     getAllUser,
     updateRole,
     updateUser,
+    deleteUser
 };
