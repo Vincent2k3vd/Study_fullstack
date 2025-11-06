@@ -1,7 +1,7 @@
 const { RefreshTokens } = require('../models');
 
 
-const createRefershToken = async (refreshToken, agent, ip, userId) => {
+const createRefreshToken = async (refreshToken, agent, ip, userId) => {
     return await RefreshTokens.create({
         token: refreshToken,
         userAgent: agent,
@@ -11,4 +11,20 @@ const createRefershToken = async (refreshToken, agent, ip, userId) => {
     });
 };
 
-module.exports = createRefershToken;
+const getRefershTokenByuserId = async (userId) => {
+    return await RefreshTokens.findByPk(userId);
+};
+
+const deleteRefershToken = async (userId) => {
+    return await RefreshTokens.destroy({
+        where: {
+            userId: userId,
+        },
+    });
+};
+
+module.exports = {
+    createRefreshToken,
+    getRefershTokenByuserId,
+    deleteRefershToken
+};

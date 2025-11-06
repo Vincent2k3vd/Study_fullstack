@@ -65,9 +65,9 @@ const getAllUsers = async (req, res) => {
 
         const queryOptions = queryBuilder(
             req.query,
-            ["role", "isVerified"],         // allowedFilters
-            ["username", "createdAt"],       // allowedSortFields
-            ["username", "email"]            // searchableFields
+            ["role", "isVerified"],
+            ["id", "createdAt"],
+            ["username", "email"]
         );
 
         console.log(queryOptions);
@@ -98,9 +98,9 @@ const createUsers = async (req, res) => {
         }
 
         const passwordHash = await hashPass(password);
-        const newUser = await createUser({ username, email, passwordHash, isVerified });
+        const newUser = await createUser({ avatar, username, email, passwordHash, isVerified });
 
-        logger.info("Users/createUsers: Created user successfully!", { ip: req.ip, email: user.email });
+        logger.info("Users/createUsers: Created user successfully!", { ip: req.ip, email: newUser.email });
         return successResponse(res, 201, "Tạo người dùng thành công!", newUser);
     } catch (error) {
         logger.error("Users/createUsers: Server error", { ip: req.ip, error: error.message, stack: error.stack });

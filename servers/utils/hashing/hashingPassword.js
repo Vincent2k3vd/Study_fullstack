@@ -11,7 +11,9 @@ const comparePass = async (password, hashPass) => {
     return await bcrypt.compare(password, hashPass);
 };
 
-
+const decodeToken = async (token) => {
+    return await jwt.decode(token, process.env.JWT_ACCESS_TOKEN);
+};
 
 const accessTokenJWT = async (payload) => {
     return await jwt.sign({ payload }, process.env.JWT_ACCESS_TOKEN, { expiresIn: process.env.EXPIRESIN_ACCESS_TOKEN });
@@ -26,6 +28,7 @@ const refreshTokenJWT = async (payload) => {
 module.exports = {
     hashPass,
     comparePass,
+    decodeToken,
     accessTokenJWT,
     refreshTokenJWT
 

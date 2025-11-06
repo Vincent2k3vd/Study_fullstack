@@ -1,12 +1,5 @@
 const { Op } = require('sequelize');
 
-/**
-*
-* @param {object} query - req.query
-* @param {Array<string>} allowedFilters
-* @param {Array<string>} allowedSortFields
-* @param {Array<string>} searchableFields
-  */
 const queryBuilder = (query = {}, allowedFilters = [], allowedSortFields = [], searchableFields = []) => {
     const {
         page = 1,
@@ -18,6 +11,8 @@ const queryBuilder = (query = {}, allowedFilters = [], allowedSortFields = [], s
     } = query;
 
     const where = {};
+
+    console.log(query, allowedFilters, allowedSortFields, searchableFields);
 
     for (const [key, value] of Object.entries(filters)) {
         if (allowedFilters.includes(key)) {

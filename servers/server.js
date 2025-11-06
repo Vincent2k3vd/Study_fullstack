@@ -1,15 +1,24 @@
 const express = require('express');
+const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 const port = process.env.PORT;
 
 const app = express();
 
-
-app.use(express.json());
 const db = require('./models');
 const userRouter = require('./routes/usersRouter');
 const authRouter = require('./routes/authRouter');
+const cookieParser = require('cookie-parser');
+
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}));
+
+app.use(express.json());
+app.use(cookieParser());
+
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
@@ -27,7 +36,7 @@ const startServer = async () => {
         });
     } catch (error) {
         console.error("❌ Cannot connect to DB:", error);
-        process.exit(1); // Dừng app nếu kết nối DB lỗi
+        process.exit(1);
     }
 };
 

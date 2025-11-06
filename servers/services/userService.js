@@ -1,9 +1,8 @@
 const { Op } = require('sequelize');
 const { Users } = require('../models');
 
-const createUser = async ({ username, email, hashPassword, isVerified = false }) => {
-    console.log(username, email, hashPassword, isVerified);
-    return await Users.create({ username, email, password: hashPassword, isVerified });
+const createUser = async ({ avatar, username, email, hashPassword, isVerified = false }) => {
+    return await Users.create({ avatar, username, email, password: hashPassword, isVerified });
 };
 
 const getUserByEmail = async (email) => {

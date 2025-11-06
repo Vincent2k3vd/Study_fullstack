@@ -1,9 +1,15 @@
+const { type } = require("../utils/validations/registerValidation");
+
 module.exports = (sequelize, DataTypes) => {
     const Users = sequelize.define("Users", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+        },
+        avatar: {
+            type: DataTypes.STRING,
+            allowNull: true
         },
         username: {
             type: DataTypes.STRING,
@@ -38,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: "user",
         },
     });
-        
+
     Users.associate = (models) => {
         Users.hasMany(models.RefreshTokens, {
             foreignKey: "userId",
